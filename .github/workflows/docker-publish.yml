@@ -6,14 +6,12 @@ name: Docker
 # documentation.
 
 on:
+  push:
+  pull_request:
   schedule:
     - cron: '16 6 * * *'
-  push:
-    branches: [ "main" ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "main" ]
+
+
 
 env:
   IMAGE_NAME: sharmasecureservicesusa/plexrclone
