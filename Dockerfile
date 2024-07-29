@@ -26,7 +26,7 @@ RUN \
       curl \
       xmlstarlet \
       rclone \
-      fuse \
+      fuse3 \
       uuid-runtime \
       unrar && \
     apt-get -y autoremove && \
