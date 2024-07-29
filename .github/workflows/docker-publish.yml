@@ -39,11 +39,12 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           load: true
+          push: true
           tags: ${{ vars.IMAGE_NAME }}:test
       
       - name: Test
         run: |
-          docker run --rm ${{ vars.IMAGE_NAME }}:test          
+          docker run --rm --network=host ${{ vars.IMAGE_NAME }}:test          
       
       - name: Build and push
         uses: docker/build-push-action@v6
