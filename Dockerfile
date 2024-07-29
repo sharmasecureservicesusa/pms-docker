@@ -25,6 +25,8 @@ RUN \
       tzdata \
       curl \
       xmlstarlet \
+      rclone \
+      fuse \
       uuid-runtime \
       unrar && \
     apt-get -y autoremove && \
