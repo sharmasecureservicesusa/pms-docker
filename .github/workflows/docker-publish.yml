@@ -44,7 +44,7 @@ jobs:
       
       - name: Test
         run: |
-          docker --detach --rm --network=host ${{ vars.IMAGE_NAME }}:test          
+          docker run --detach --rm --network=host ${{ vars.IMAGE_NAME }}:test          
       
       - name: Build and push
         uses: docker/build-push-action@v6
