@@ -23,6 +23,7 @@ RUN \
     apt-get update && \
     apt-get install -y \
       tzdata \
+      build-essential
       curl \
       xmlstarlet \
       rclone \
