@@ -56,7 +56,7 @@ VOLUME /config /transcode
 
 ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
     HOME="/config" \
-    ACCESS_KEY_ID=default
+    ACCESS_KEY_ID=default \
     SECRET_ACCESS_KEY=default
 
 RUN echo $ACCESS_KEY_ID:$SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs && \
