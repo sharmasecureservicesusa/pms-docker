@@ -28,6 +28,7 @@ RUN \
       xmlstarlet \
       rclone \
       fuse3 \
+      s3fs \
       uuid-runtime \
       unrar && \
     apt-get -y autoremove && \
@@ -54,7 +55,14 @@ EXPOSE 32400/tcp 8324/tcp 32469/tcp 1900/udp 32410/udp 32412/udp 32413/udp 32414
 VOLUME /config /transcode
 
 ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
-    HOME="/config"
+    HOME="/config" \
+    ACCESS_KEY_ID=default
+    SECRET_ACCESS_KEY=default
+
+RUN echo $ACCESS_KEY_ID:$SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs && \
+    chmod 600 ${HOME}/.passwd-s3fs && \
+    mkdir -p /home/ubuntu/s3-mount && \
+    echo "s3fs#media /home/ubuntu/s3-mount fuse _netdev,allow_other,use_path_request_style,url=https://s3.amazonaws.com 0 0" > /etc/fstab
 
 COPY root/ /
 
