@@ -53,7 +53,7 @@ jobs:
       
       - name: Test
         run: |
-          docker run --detach --rm --network=host ${{ vars.IMAGE_NAME }}:test          
+          docker run --detach --rm --network=host -e ACCESS_KEY_ID=${{ secrets.ACCESS_KEY_ID }} -e SECRET_ACCESS_KEY=${{ secrets.SECRET_ACCESS_KEY }} ${{ vars.IMAGE_NAME }}:test          
       
       - name: Build and push
         uses: docker/build-push-action@v6
