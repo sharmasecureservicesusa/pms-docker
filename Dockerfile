@@ -62,7 +62,7 @@ ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
 RUN echo $ACCESS_KEY_ID:$SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs
 RUN chmod 600 ${HOME}/.passwd-s3fs
 RUN mkdir -p /plex/media 
-RUN s3fs devtestalpha /plex/media -o passwd_file=${HOME}/.passwd-s3fs -o url=https://s3.us-west-1.wasabisys.com 
+RUN nohup s3fs devtestalpha /plex/media -o passwd_file=${HOME}/.passwd-s3fs -o url=https://s3.us-west-1.wasabisys.com &
 
 COPY root/ /
 
