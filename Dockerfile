@@ -59,10 +59,10 @@ ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
     ACCESS_KEY_ID=default \
     SECRET_ACCESS_KEY=default
 
-RUN echo $ACCESS_KEY_ID:$SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs && \
-    chmod 600 ${HOME}/.passwd-s3fs && \
-    mkdir -p /home/ubuntu/s3-mount && \
-    echo "s3fs#media /home/ubuntu/s3-mount fuse _netdev,allow_other,use_path_request_style,url=https://s3.amazonaws.com 0 0" > /etc/fstab
+RUN echo "$ACCESS_KEY_ID:$SECRET_ACCESS_KEY" > /etc/passwd-s3fs && \
+	chmod 600 /etc/passwd-s3fs && \
+	mkdir -p /plex/media && \
+	s3fs devtestalpha /plex/media -o passwd_file=/etc/passwd-s3fs -o url=https://s3.us-west-1.wasabisys.com 
 
 COPY root/ /
 
