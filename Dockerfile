@@ -59,7 +59,7 @@ ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
     ACCESS_KEY_ID=default \
     SECRET_ACCESS_KEY=default
 
-RUN echo "$ACCESS_KEY_ID:$SECRET_ACCESS_KEY" > /etc/passwd-s3fs && \
+RUN echo $ACCESS_KEY_ID:$SECRET_ACCESS_KEY > /etc/passwd-s3fs && \
 	chmod 600 /etc/passwd-s3fs && \
 	mkdir -p /plex/media && \
 	s3fs devtestalpha /plex/media -o passwd_file=/etc/passwd-s3fs -o url=https://s3.us-west-1.wasabisys.com 
