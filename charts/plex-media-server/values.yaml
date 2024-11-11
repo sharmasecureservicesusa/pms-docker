@@ -36,6 +36,12 @@ pms:
   # NOTE: When set, 'configStorage' and 'storageClassName' are ignored.
   configExistingClaim: ""
 
+  # Enabling this will add nvidia.com/gpu: 1 to limits, and will set
+  # environment for the nvidia operator
+  gpu:
+    nvidia:
+      enabled: false
+
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -101,7 +107,10 @@ rclone:
     pullPolicy: IfNotPresent
 
   # The name of the secret that contains the rclone configuration file.
-  # The key must be called `rclone.conf` in the secret
+  # The rclone config key must be called `rclone.conf` in the secret
+  #
+  # All keys in configSecret will be available in /etc/rclone/. This might
+  # be useful if other files are needed, such as a private key for sftp mode.
   configSecret: ""
 
 
@@ -189,15 +198,16 @@ extraEnv: {}
 # Optionally specify additional volume mounts for the PMS and init containers.
 extraVolumeMounts: []
 # extraVolumeMounts:
-#   - name: some-volume-name
-#     mountPath: /path/in/container
-
+#   - name: dev-dri
+#     mountPath: /dev/dri
 
 # Optionally specify additional volumes for the pod.
 extraVolumes: []
 # extraVolumes:
-#   - name: some-volume-name
-#     emptyDir: {}
+#   - name: dev-dri
+#     hostPath:
+#       path: /dev/dri
+#       type: Directory
 
 extraContainers: []
 # extraContainers:

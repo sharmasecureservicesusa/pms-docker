@@ -85,11 +85,10 @@ spec:
       - name: {{ include "pms-chart.fullname" . }}-config
         image: {{ include "pms-chart.init_image" . }}
         command:
-          - cp
+          - sh
+          - -c
         args:
-          - -v
-          - /in/rclone.conf
-          - /out/rclone.conf
+          - cp -v /in/* /out/
         volumeMounts:
         - name: rclone-config-data
           mountPath: /in
@@ -113,10 +112,26 @@ spec:
         - name: {{ $key }}
           value: {{ $value | quote }}
         {{- end }}
+        {{- if .Values.pms.gpu.nvidia.enabled }}
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: all
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: compute,video,utility
+        {{- end }}
         {{- with .Values.pms.resources }}
         resources:
-{{ toYaml . | indent 10 }}
-      {{- end }}
+          limits:
+          {{- with .limits }}
+            {{ toYaml . | indent 12 | trim }}
+          {{- end }}
+          {{- if and $.Values.pms.gpu.nvidia.enabled (not (hasKey .limits "nvidia.com/gpu")) }}
+            nvidia.com/gpu: 1
+          {{- end }}
+          {{- if .requests }}
+          requests:
+            {{ toYaml .requests | indent 12 | trim }}
+          {{- end }}
+        {{- end }}
         volumeMounts:
         - name: pms-config
           mountPath: /config
