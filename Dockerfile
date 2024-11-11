@@ -19,7 +19,7 @@ RUN useradd -U -d /config -s /bin/false plex && \
       /data
 
 RUN \
-# Update and get dependencies
+# Update and get dependencies r
     apt-get update && \
     apt-get install -y \
       tzdata \
