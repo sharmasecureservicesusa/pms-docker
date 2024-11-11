@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-ARG TARGETARCH
+ARG TARGETARCH=arm64
 ARG TARGETPLATFORM
 
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -23,12 +23,8 @@ RUN \
     apt-get update && \
     apt-get install -y \
       tzdata \
-      build-essential \
       curl \
       xmlstarlet \
-      rclone \
-      fuse3 \
-      s3fs \
       uuid-runtime \
       unrar && \
     apt-get -y autoremove && \
@@ -55,14 +51,7 @@ EXPOSE 32400/tcp 8324/tcp 32469/tcp 1900/udp 32410/udp 32412/udp 32413/udp 32414
 VOLUME /config /transcode
 
 ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
-    HOME="/config" \
-    ACCESS_KEY_ID=default \
-    SECRET_ACCESS_KEY=default
-
-RUN echo $ACCESS_KEY_ID:$SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs
-RUN chmod 600 ${HOME}/.passwd-s3fs
-RUN mkdir -p /plex/media 
-RUN nohup s3fs devtestalpha /plex/media -o passwd_file=${HOME}/.passwd-s3fs -o url=https://s3.us-west-1.wasabisys.com &
+    HOME="/config"
 
 COPY root/ /
 
